@@ -1,19 +1,32 @@
-import React, { useAction } from 'react'
+import React, { useActionState } from 'react'
 
 const NonActionDemo = () => {
-  const [name, setName] = React.useState("");
+  // useActionState is used here to manage the state of the form submission
+  const [userName, formAction, isPending] = useActionState(actionReducer, "");
 
-  async function formAction(formData: FormData) {
-    await new Promise((resolve) => setTimeout(() => {
-      const userName = formData.get("userName") as string;
-      setName(`Name: ${userName}`);
-      resolve(null);
-    }, 2000));
+  async function actionReducer(prevState: string, formData: FormData) {
+    try {
+      const inputedUserName = formData.get("userName") as string
+      const userName = await getUserName(inputedUserName);
+      return userName;
+    }
+    catch (error) {
+      console.error("Error updating data:", error);
+      return prevState;
+    }
+  }
+
+  async function getUserName(userName: string) {
+    return await new Promise<string>((resolve) => setTimeout(() => {
+      resolve(userName);
+    }, 1000));
   }
 
   return (
     <>
-      <p>Current user: <span>{name}</span></p>
+      <p>
+        Current user: <span>{isPending ? "Loading..." : userName}</span>
+      </p>
       <form action={formAction}>
         <input
           type="text"
