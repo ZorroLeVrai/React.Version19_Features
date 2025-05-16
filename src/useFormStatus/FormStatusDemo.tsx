@@ -1,4 +1,4 @@
-import React, { useActionState, useOptimistic } from 'react';
+import React, { useActionState, useOptimistic, useRef } from 'react';
 import { useFormStatus } from 'react-dom';
 
 interface FormState {
@@ -7,6 +7,8 @@ interface FormState {
 }
 
 const FormStatusDemo = () => {
+  const submitButtonRef = useRef(null);
+
   // useActionState is used here to manage the state of the form submission
   const [formState, formAction, isPending] = useActionState<FormState, FormData>(actionReducer, {
     userName: "",
@@ -61,7 +63,7 @@ const FormStatusDemo = () => {
           required
           autoFocus
         />
-        <MyButton type="submit">Submit</MyButton>
+        <MyButton type="submit" ref={submitButtonRef}>Submit</MyButton>
       </form>
     </>
   )
@@ -69,10 +71,11 @@ const FormStatusDemo = () => {
 
 interface MyButtonProps {
   children: React.ReactNode;
+  ref: React.Ref<HTMLButtonElement>;
   [key: string]: unknown; // Allow any other props
 }
 
-function MyButton({ children, ...rest }: MyButtonProps) {
+function MyButton({ children, ref, ...rest }: MyButtonProps) {
   //allows us to use the <form> as a context provider
   const formStatus = useFormStatus();
   const isPending = formStatus.pending;
@@ -80,7 +83,7 @@ function MyButton({ children, ...rest }: MyButtonProps) {
 
   return (
     <>
-      <button {...rest}>
+      <button {...rest} ref={ref} disabled={isPending}>
         {isPending ? "Submitting..." : children}
       </button>
       {isPending && formData && <p>Submitting with data: {formData.get("userName")?.toString()}</p>}
