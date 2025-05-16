@@ -1,20 +1,23 @@
-import { useActionState } from 'react'
+import { useActionState, useOptimistic } from 'react';
 
 interface FormState {
   userName: string;
   error: string | null;
 }
 
-const NonActionDemo = () => {
+const OptimisticDemo = () => {
   // useActionState is used here to manage the state of the form submission
   const [formState, formAction, isPending] = useActionState<FormState, FormData>(actionReducer, {
     userName: "",
     error: null
   });
 
+  const [optimisticUserName, setOptimisticUserName] = useOptimistic<string | null>(formState.userName);
+
   async function actionReducer(prevState: FormState, formData: FormData) {
     try {
-      const inputedUserName = formData.get("userName") as string
+      const inputedUserName = formData.get("userName") as string;
+      setOptimisticUserName(inputedUserName);
       const userName = await getUserName(inputedUserName);
       return { userName, error: null };
     }
@@ -34,7 +37,7 @@ const NonActionDemo = () => {
 
   async function getUserName(userName: string) {
     return await new Promise<string>((resolve, reject) => setTimeout(() => {
-      if (userName.toLowerCase() === "error") {
+      if (userName.toLowerCase().includes("error")) {
         reject("Error: User name cannot be 'error'");
         return;
       }
@@ -47,7 +50,7 @@ const NonActionDemo = () => {
     <>
       {!isPending && formState.error && <p style={{ color: "red" }}>{formState.error}</p>}
       <p>
-        Current user: <span>{isPending ? "Loading..." : formState.userName}</span>
+        Current user: <span>{optimisticUserName}</span>
       </p>
       <form action={formAction}>
         <input
@@ -63,4 +66,4 @@ const NonActionDemo = () => {
   )
 }
 
-export default NonActionDemo;
+export default OptimisticDemo;
