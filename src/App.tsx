@@ -3,7 +3,12 @@ import Home from './Home'
 import TransitionDemo from './react18/useTransition/TransitionDemo';
 import NonActionDemo from './useAction/ActionDemo';
 import OptimisticDemo from './useOptimistic/OptimisticDemo';
-import FormStatusDemo from './useFormStatus/formStatusDemo';
+import FormStatusDemo from './useFormStatus/FormStatusDemo';
+import { Suspense } from 'react';
+import { ErrorBoundary } from 'react-error-boundary';
+import UseDemoWrapper from './use/UseDemoWrapper';
+import UseDemo from './use/UseDemo';
+import UseDemoV2 from './use/UseDemoV2';
 
 function App() {
 
@@ -16,6 +21,8 @@ function App() {
           <li><Link to="/action">useAction</Link></li>
           <li><Link to="/optimistic">useOptimistic</Link></li>
           <li><Link to="/formStatus">useFormStatus</Link></li>
+          <li><Link to="/use">useDemo</Link></li>
+          <li><Link to="/use2">useDemo V2</Link></li>
         </ul>
       </nav>
       <Routes>
@@ -24,6 +31,8 @@ function App() {
         <Route path="/action" element={<NonActionDemo />} />
         <Route path="/optimistic" element={<OptimisticDemo />} />
         <Route path="/formStatus" element={<FormStatusDemo />} />
+        <Route path="/use" element={<UseDemo />} />
+        <Route path="/use2" element={<UseDemoV2 />} />
       </Routes>
     </>
   )

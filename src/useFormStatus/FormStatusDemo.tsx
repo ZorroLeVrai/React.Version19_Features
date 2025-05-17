@@ -83,7 +83,7 @@ function MyButton({ children, ref, ...rest }: MyButtonProps) {
 
   return (
     <>
-      <button {...rest} ref={ref} disabled={isPending}>
+      <button ref={ref} disabled={isPending} {...rest}>
         {isPending ? "Submitting..." : children}
       </button>
       {isPending && formData && <p>Submitting with data: {formData.get("userName")?.toString()}</p>}
