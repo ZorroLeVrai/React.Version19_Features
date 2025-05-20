@@ -7,6 +7,7 @@ import FormStatusDemo from './useFormStatus/FormStatusDemo';
 import MetadataDemo from './metaData/MetadataDemo';
 import UseDemo from './use/UseDemo';
 import UseDemoV2 from './use/UseDemoV2';
+import RefDemo from './forwardRef/refDemo';
 
 function App() {
 
@@ -21,6 +22,7 @@ function App() {
           <li><Link to="/formStatus">useFormStatus</Link></li>
           <li><Link to="/use">useDemo</Link></li>
           <li><Link to="/use2">useDemo V2</Link></li>
+          <li><Link to="/ref">forward Ref</Link></li>
           <li><Link to="/metadata">metadata</Link></li>
         </ul>
       </nav>
@@ -32,6 +34,7 @@ function App() {
         <Route path="/formStatus" element={<FormStatusDemo />} />
         <Route path="/use" element={<UseDemo />} />
         <Route path="/use2" element={<UseDemoV2 />} />
+        <Route path="/ref" element={<RefDemo />} />
         <Route path="/metadata" element={<MetadataDemo />} />
       </Routes>
     </>
