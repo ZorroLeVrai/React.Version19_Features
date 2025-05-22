@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { useRef } from 'react'
 
 function RefDemo() {
-  const inputRef = React.useRef<HTMLInputElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   return (
     <>
